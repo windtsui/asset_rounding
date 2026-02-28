@@ -1,7 +1,8 @@
 import frappe
 
 def get_rounded_amount(amount, currency):
-    """Round amount based on currency rules (IDR → whole number, USD → 2 decimals)."""
+    """Round amount based on currency rules (IDR → whole number, USD → 2 decimals)
+       using standard rounding (0.5 always rounds up)."""
     if amount is None or amount == 0:
         return amount
     try:
@@ -10,10 +11,11 @@ def get_rounded_amount(amount, currency):
         return amount
 
     if currency == 'IDR':
-        return round(amount)
+        # Standard rounding to nearest integer (half up)
+        return int(amount + 0.5) if amount >= 0 else int(amount - 0.5)
     elif currency == 'USD':
-        return round(amount, 2)
-    # Add other currencies as needed
+        # Round to 2 decimals with half up
+        return int(amount * 100 + 0.5) / 100 if amount >= 0 else int(amount * 100 - 0.5) / 100
     return amount
 
 
