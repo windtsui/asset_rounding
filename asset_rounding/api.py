@@ -18,7 +18,7 @@ def get_rounded_amount(amount, currency):
 
 
 def round_asset(doc, method):
-    """Rounds gross_purchase_amount in Asset."""
+    """Rounds gross_purchase_amount in Asset using the company's currency."""
     currency = None
     if doc.company:
         company = frappe.get_doc("Company", doc.company)
@@ -30,11 +30,12 @@ def round_asset(doc, method):
 
 def round_depreciation_schedule(doc, method):
     """Rounds main and child table amounts in Asset Depreciation Schedule."""
-    # Determine currency from linked Asset or fallback
-    currency = 'IDR'
+    currency = 'IDR'  # fallback
     if doc.asset:
         asset = frappe.get_doc("Asset", doc.asset)
-        currency = asset.currency or frappe.db.get_value("Company", asset.company, "default_currency")
+        if asset.company:
+            company = frappe.get_doc("Company", asset.company)
+            currency = company.default_currency
 
     if doc.get("depreciation_amount"):
         doc.depreciation_amount = get_rounded_amount(doc.depreciation_amount, currency)
