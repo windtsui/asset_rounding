@@ -15,12 +15,12 @@ app_license = "MIT"
 
 doc_events = {
     "Asset": {
-        "before_save": "asset_rounding.asset_rounding.api.round_asset"
+        "before_save": "asset_rounding.api.round_asset"
     },
     "Asset Depreciation Schedule": {
-        "before_save": "asset_rounding.asset_rounding.api.round_depreciation_schedule"
+        "before_save": "asset_rounding.api.round_depreciation_schedule"
     },
     "Journal Entry": {
-        "before_save": "asset_rounding.asset_rounding.api.round_journal_entry"
+        "before_save": "asset_rounding.api.round_journal_entry"
     }
 }
