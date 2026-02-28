@@ -19,8 +19,8 @@ def get_rounded_amount(amount, currency):
 
 def round_asset(doc, method):
     """Rounds gross_purchase_amount in Asset."""
-    currency = doc.currency
-    if not currency and doc.company:
+    currency = None
+    if doc.company:
         company = frappe.get_doc("Company", doc.company)
         currency = company.default_currency
 
